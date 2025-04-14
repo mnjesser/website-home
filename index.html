@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOONE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00f7ff;
+            --secondary: #ff00aa;
+            --bg: #0a0a12;
+            --card-bg: #151520;
+            --text: #ffffff;
+            --text-secondary: #b0b0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 247, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 170, 0.1) 0%, transparent 20%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+            animation: glow 2s infinite alternate;
+        }
+
+        .aka {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .tagline::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            margin: 1rem auto 0;
+            border-radius: 3px;
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        /* WhatsApp card specific styling */
+        .whatsapp-card {
+            grid-column: 1 / -1;
+            justify-self: center;
+            max-width: 300px;
+        }
+
+        .social-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .social-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent,
+                transparent,
+                transparent,
+                rgba(0, 247, 255, 0.1)
+            );
+            transform: rotate(30deg);
+            z-index: 1;
+            transition: all 0.6s;
+        }
+
+        .social-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-card:hover::before {
+            transform: rotate(30deg) translate(10%, 10%);
+        }
+
+        .social-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .social-name {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .social-desc {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .social-btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.5s;
+        }
+
+        .social-btn:hover::before {
+            left: 100%;
+        }
+
+        .social-btn:hover {
+            box-shadow: 0 5px 15px rgba(0, 247, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .facebook { color: #1877f2; }
+        .instagram { color: #e1306c; }
+        .tiktok { color: #000000; }
+        .discord { color: #5865f2; }
+        .gmail { color: #ea4335; }
+        .youtube { color: #ff0000; }
+        .whatsapp { color: #25d366; }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 5rem;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+            }
+            100% {
+                text-shadow: 0 0 20px rgba(255, 0, 170, 0.5);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .social-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .whatsapp-card {
+                grid-column: auto;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles-js"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">NOONE</div>
+            <div class="tagline">Digital Presence Across Platforms</div>
+        </header>
+        
+        <div class="social-grid">
+            <!-- Facebook -->
+            <div class="social-card">
+                <div class="social-icon">
+                    <i class="fab fa-facebook facebook"></i>
+                </div>
+                <h3 class="social-name">Facebook</h3>
+                <p class="social-desc">Connect with me on Facebook for updates and personal insights.</p>
+                <a href="https://www.facebook.com/profile.php?id=61550908678317" target="_blank" class="social-btn">Visit Profile</a>
+            </div>
+            
+            <!-- Instagram -->
+            <div class="social-card">
+                <div class="social-icon">
+                    <i class="fab fa-instagram instagram"></i>
+                </div>
+                <h3 class="social-name">Instagram</h3>
+                <p class="social-desc">Follow my visual journey through photos and stories.</p>
+                <a href="https://www.instagram.com/say_jesser/" target="_blank" class="social-btn">Follow Me</a>
+            </div>
+            
+            <!-- TikTok -->
+            <div class="social-card">
+                <div class="social-icon">
+                    <i class="fab fa-tiktok tiktok"></i>
+                </div>
+                <h3 class="social-name">TikTok</h3>
+                <p class="social-desc">Check out my creative videos and short-form content.</p>
+                <a href="https://www.tiktok.com/@jesser.mn" target="_blank" class="social-btn">Watch Videos</a>
+            </div>
+            
+            <!-- Discord -->
+            <div class="social-card">
+                <div class="social-icon">
+                    <i class="fab fa-discord discord"></i>
+                </div>
+                <h3 class="social-name">Discord</h3>
+                <p class="social-desc">Join my community server for real-time conversations.</p>
+                <a href="https://discord.gg/3swbyk6U" target="_blank" class="social-btn">Join Server</a>
+            </div>
+            
+            <!-- Gmail -->
+            <div class="social-card">
+                <div class="social-icon">
+                    <i class="fas fa-envelope gmail"></i>
+                </div>
+                <h3 class="social-name">Email</h3>
+                <p class="social-desc">Reach out directly for collaborations or inquiries.</p>
+                <a href="mailto:your.mnjesser@gmail.com" class="social-btn">Send Email</a>
+            </div>
+            
+            <!-- YouTube -->
+            <div class="social-card">
+                <div class="social-icon">
+                    <i class="fab fa-youtube youtube"></i>
+                </div>
+                <h3 class="social-name">YouTube</h3>
+                <p class="social-desc">Subscribe for video content, tutorials, and more.</p>
+                <a href="https://www.youtube.com/@Toxicafricano" target="_blank" class="social-btn">Subscribe</a>
+            </div>
+            
+            <!-- WhatsApp - Centered Card -->
+            <div class="social-card whatsapp-card">
+                <div class="social-icon">
+                    <i class="fab fa-whatsapp whatsapp"></i>
+                </div>
+                <h3 class="social-name">WhatsApp</h3>
+                <p class="social-desc">Message me directly for quick communication.</p>
+                <a href="https://wa.me/+21652299368" target="_blank" class="social-btn">Chat Now</a>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        &copy; 2025 Manai Jesser. All rights reserved.
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Particles.js configuration
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": ["#00f7ff", "#ff00aa"]
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#00f7ff",
+                    "opacity": 0.2,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+
+        // Animate cards on scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.social-card');
+            
+            const animateOnScroll = () => {
+                cards.forEach(card => {
+                    const cardPosition = card.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.3;
+                    
+                    if (cardPosition < screenPosition) {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }
+                });
+            };
+            
+            // Initial state
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`;
+            });
+            
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Run once on load
+        });
+    </script>
+</body>
+</html>
